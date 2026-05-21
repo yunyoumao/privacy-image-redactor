@@ -6,9 +6,9 @@ Images stay in your browser. Redact faces, names, contacts, account IDs, screens
 
 **Live demo:** https://yunyoumao.github.io/privacy-image-redactor/
 
-![Synthetic before profile image](examples/before/synthetic-profile-card.svg)
+![Privacy Image Redactor synthetic UI showcase](examples/showcase/privacy-image-redactor-showcase.png)
 
-![Synthetic after profile image](examples/after/synthetic-profile-card-redacted.svg)
+The showcase image is generated from a synthetic UI prompt. The editable SVG fixtures in `examples/before` and `examples/after` remain the reproducible sample inputs used by the app.
 
 ## Features
 
@@ -43,7 +43,7 @@ This tool is designed for public-material hygiene, not forensic erasure certific
 - Review every exported image manually before publishing.
 - Do not use real private photos or sensitive documents in bug reports.
 
-See [docs/privacy-boundary.md](docs/privacy-boundary.md).
+See [docs/privacy-boundary.md](docs/privacy-boundary.md) and [docs/demo-assets.md](docs/demo-assets.md).
 
 ## Validation
 
@@ -74,4 +74,4 @@ github-pages
 
 ## Synthetic Demo Fixtures
 
-All demo images are synthetic SVG fixtures. They do not depict real people, real meetings, real projects, real documents, or unpublished research materials.
+All demo assets are synthetic. The checked-in SVG files are reproducible fixtures for the app, and the README showcase PNG is an AI-generated mockup for public presentation. They do not depict real people, real meetings, real projects, real documents, or unpublished research materials.

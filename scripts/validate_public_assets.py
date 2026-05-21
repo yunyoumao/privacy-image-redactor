@@ -41,10 +41,12 @@ EXPECTED_FILES = [
     "CODE_OF_CONDUCT.md",
     "docs/privacy-boundary.md",
     "docs/usage.md",
+    "docs/demo-assets.md",
     "examples/before/synthetic-profile-card.svg",
     "examples/after/synthetic-profile-card-redacted.svg",
     "examples/before/synthetic-screenshot.svg",
     "examples/after/synthetic-screenshot-redacted.svg",
+    "examples/showcase/privacy-image-redactor-showcase.png",
     ".github/workflows/deploy-pages.yml",
 ]
 
