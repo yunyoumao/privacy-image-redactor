@@ -4,7 +4,7 @@ This repository uses only synthetic demo assets.
 
 ## Asset Types
 
-- `examples/before/*.svg` and `examples/after/*.svg` are deterministic fixtures used by the app's sample loader and README examples.
+- `examples/before/*.svg` and `examples/after/*.svg` are deterministic fixtures used by README examples and verification checks.
 - `examples/showcase/privacy-image-redactor-showcase.png` is an AI-generated product mockup used as the README showcase image.
 
 ## Generation Boundary

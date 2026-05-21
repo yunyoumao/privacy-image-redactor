@@ -4,7 +4,6 @@ import {
   Download,
   Eraser,
   EyeOff,
-  ImagePlus,
   MousePointer2,
   ScanFace,
   ShieldCheck,
@@ -18,7 +17,6 @@ import { clampBox, createBox, normalizeRect } from './lib/boxModel'
 import { detectFaces, isFaceDetectorSupported } from './lib/faceDetection'
 import { createRedactedZip, downloadBlob } from './lib/exportZip'
 import { loadImageFiles, safeFileStem } from './lib/imageLoader'
-import { sampleFiles } from './lib/sampleImages'
 import type { ImageItem, RedactionBox, RedactionDefaults, RedactionMode } from './lib/types'
 import { ImageCanvas } from './components/ImageCanvas'
 import { renderImageToBlob } from './lib/redaction'
@@ -37,37 +35,9 @@ function fileSizeLabel(bytes: number) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`
 }
 
-function withDemoBoxes(item: ImageItem, index: number): ImageItem {
-  const demoDefaults: RedactionDefaults = index === 0
-    ? { mode: 'pixelate', blur: 18, pixelSize: 22, color: '#111827' }
-    : { mode: 'solid', blur: 18, pixelSize: 16, color: '#111827' }
-
-  const rects = index === 0
-    ? [
-      { x: 170, y: 245, width: 170, height: 150 },
-      { x: 555, y: 245, width: 170, height: 150 },
-      { x: 930, y: 245, width: 170, height: 150 },
-      { x: 140, y: 455, width: 265, height: 44 },
-      { x: 512, y: 455, width: 280, height: 44 },
-      { x: 900, y: 455, width: 300, height: 44 },
-    ]
-    : [
-      { x: 102, y: 248, width: 440, height: 48 },
-      { x: 102, y: 306, width: 560, height: 48 },
-      { x: 102, y: 365, width: 500, height: 48 },
-      { x: 102, y: 425, width: 610, height: 48 },
-    ]
-
-  return {
-    ...item,
-    boxes: rects.map((rect) => clampBox(createBox(rect, demoDefaults), item.width, item.height)),
-  }
-}
-
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const itemsRef = useRef<ImageItem[]>([])
-  const demoLoadedRef = useRef(false)
   const [items, setItems] = useState<ImageItem[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [selectedBoxId, setSelectedBoxId] = useState<string | null>(null)
@@ -118,24 +88,6 @@ function App() {
       setStatus(error instanceof Error ? error.message : 'Could not load the selected images.')
     } finally {
       setBusy(false)
-    }
-  }, [mergeItems])
-
-  useEffect(() => {
-    if (demoLoadedRef.current) {
-      return
-    }
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('demo') === 'samples') {
-      demoLoadedRef.current = true
-      loadImageFiles(sampleFiles())
-        .then((loaded) => {
-          const demoItems = params.get('redacted') === '1'
-            ? loaded.map((item, index) => withDemoBoxes(item, index))
-            : loaded
-          mergeItems(demoItems)
-        })
-        .catch(() => setStatus('Could not load synthetic demo samples.'))
     }
   }, [mergeItems])
 
@@ -281,10 +233,6 @@ function App() {
           <h1>Privacy Image Redactor</h1>
         </div>
         <div className="header-actions" aria-label="Primary actions">
-          <button type="button" className="button secondary" onClick={() => handleFiles(sampleFiles())}>
-            <ImagePlus size={18} aria-hidden="true" />
-            Load samples
-          </button>
           <button type="button" className="button primary" onClick={() => fileInputRef.current?.click()}>
             <Upload size={18} aria-hidden="true" />
             Add images
@@ -293,7 +241,7 @@ function App() {
             ref={fileInputRef}
             className="sr-only"
             type="file"
-            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            accept="image/png,image/jpeg,image/webp"
             multiple
             onChange={(event) => handleFiles(Array.from(event.target.files ?? []))}
           />
@@ -391,7 +339,7 @@ function App() {
                 </button>
                 <button type="button" className="button secondary" onClick={runFaceDetection} disabled={busy}>
                   <ScanFace size={17} aria-hidden="true" />
-                  Detect faces
+                  Try face detection
                 </button>
               </div>
 
@@ -409,7 +357,7 @@ function App() {
             <div className="empty-state">
               <EyeOff size={44} aria-hidden="true" />
               <h2>Redact before you publish</h2>
-              <p>Load sample fixtures or drop your own image files. No upload server is used.</p>
+              <p>Drop your own image files or choose them from your device. No upload server is used.</p>
             </div>
           )}
         </section>
@@ -510,8 +458,8 @@ function App() {
           <div className="compat-box">
             <h3>Detection status</h3>
             <p>{isFaceDetectorSupported()
-              ? 'Browser FaceDetector is available. Still review every detected box.'
-              : 'Browser FaceDetector is unavailable. Manual redaction is fully supported.'}</p>
+              ? 'Browser FaceDetector is available. A MediaPipe fallback may be used if needed; review every detected box.'
+              : 'Browser FaceDetector is unavailable. A MediaPipe fallback will be tried when you run detection.'}</p>
           </div>
         </aside>
       </section>

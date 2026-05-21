@@ -1,13 +1,27 @@
-import { mkdir } from 'node:fs/promises'
+import { copyFile, mkdir } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import puppeteer from 'puppeteer-core'
 
-const appUrl = process.env.APP_URL ?? 'http://127.0.0.1:5174/privacy-image-redactor/?demo=samples&redacted=1'
+const appUrl = process.env.APP_URL ?? 'http://127.0.0.1:5174/privacy-image-redactor/'
 const chromePath = process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+const showcaseImage = resolve('examples/showcase/privacy-image-redactor-showcase.png')
+const sampleFiles = [
+  resolve('verification/upload-sample-a.png'),
+  resolve('verification/upload-sample-b.png'),
+]
 
 async function checkViewport(browser, width, height, name) {
   const page = await browser.newPage()
   await page.setViewport({ width, height, deviceScaleFactor: 1 })
   await page.goto(appUrl, { waitUntil: 'networkidle0' })
+
+  const input = await page.$('input[type="file"]')
+  if (!input) {
+    throw new Error(`${name}: file input was not found`)
+  }
+  await input.uploadFile(...sampleFiles)
+  await page.waitForFunction(() => document.querySelectorAll('.queue-item').length >= 2)
+
   await page.screenshot({ path: `verification/${name}.png`, fullPage: false })
 
   const result = await page.evaluate(() => {
@@ -32,7 +46,7 @@ async function checkViewport(browser, width, height, name) {
   }
 
   if (result.queueCount < 2) {
-    throw new Error(`${name}: sample images were not loaded`)
+    throw new Error(`${name}: uploaded images were not loaded`)
   }
 
   if (result.canvasWidth < 200 || result.canvasHeight < 120) {
@@ -41,6 +55,7 @@ async function checkViewport(browser, width, height, name) {
 }
 
 await mkdir('verification', { recursive: true })
+await Promise.all(sampleFiles.map((sample) => copyFile(showcaseImage, sample)))
 
 const browser = await puppeteer.launch({
   executablePath: chromePath,

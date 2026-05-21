@@ -13,9 +13,10 @@ The showcase image is generated from a synthetic UI prompt. The editable SVG fix
 ## Features
 
 - Multi-image drag and drop.
+- PNG, JPEG, and WebP upload support.
 - Manual redaction boxes for faces, names, IDs, screenshots, and custom regions.
 - Redaction modes: blur, pixelate, and solid block.
-- Browser-native `FaceDetector` support when available.
+- Experimental automatic face detection with browser `FaceDetector` first and a MediaPipe fallback when needed.
 - Single-image PNG download.
 - Batch ZIP export.
 - Canvas-based export so typical original EXIF metadata is not copied.
@@ -28,17 +29,18 @@ npm install
 npm run dev
 ```
 
-Open the local Vite URL, load the samples, draw redaction boxes, and export.
+Open the local Vite URL, add your own image files, draw or detect redaction boxes, and export.
 
 ## Browser Support
 
-Manual redaction works in modern browsers with Canvas support. Automatic face detection is progressive enhancement only; if the browser does not support `FaceDetector`, the app remains fully usable with manual boxes.
+Manual redaction works in modern browsers with Canvas support. Automatic face detection is experimental: the app tries browser `FaceDetector` first, then a MediaPipe Face Detector fallback. ID cards, screenshots, angled faces, small portraits, or low-resolution images can still be missed.
 
 ## Privacy Boundary
 
 This tool is designed for public-material hygiene, not forensic erasure certification.
 
 - No upload server is used by the app.
+- The optional MediaPipe fallback downloads model/wasm assets, but image pixels are processed in the browser.
 - Exports are rendered as new PNG files from Canvas.
 - Review every exported image manually before publishing.
 - Do not use real private photos or sensitive documents in bug reports.

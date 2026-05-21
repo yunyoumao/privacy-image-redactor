@@ -1,5 +1,7 @@
 import type { ImageItem } from './types'
 
+const SUPPORTED_IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp'])
+
 export function loadImageFile(file: File): Promise<ImageItem> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file)
@@ -29,7 +31,7 @@ export function loadImageFile(file: File): Promise<ImageItem> {
 }
 
 export async function loadImageFiles(files: File[]) {
-  const imageFiles = files.filter((file) => file.type.startsWith('image/'))
+  const imageFiles = files.filter((file) => SUPPORTED_IMAGE_TYPES.has(file.type))
   return Promise.all(imageFiles.map((file) => loadImageFile(file)))
 }
 
