@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#f8fafc"/>
+  <rect x="80" y="72" width="1120" height="576" rx="28" fill="#ffffff" stroke="#d7dee8" stroke-width="4"/>
+  <text x="120" y="145" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#102033">Synthetic team profile</text>
+  <text x="120" y="190" font-family="Arial, sans-serif" font-size="23" fill="#5b677a">Fake people and labels for a public redaction demo</text>
+  <g transform="translate(170 252)">
+    <circle cx="120" cy="82" r="68" fill="#f5c6a5"/>
+    <path d="M50 75c18-61 126-73 144 2-26-18-54-17-75-2-25-13-48-10-69 0z" fill="#20242f"/>
+    <circle cx="99" cy="86" r="8" fill="#20242f"/><circle cx="144" cy="86" r="8" fill="#20242f"/>
+    <path d="M94 120c30 18 58 17 78-2" stroke="#a94d3a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <text x="28" y="215" font-family="Arial, sans-serif" font-size="24" fill="#102033">Person A</text>
+  </g>
+  <g transform="translate(515 252)">
+    <circle cx="120" cy="82" r="68" fill="#c6d7f2"/>
+    <path d="M55 70c14-58 108-72 136 8-39-21-72-22-104-5-13-6-23-7-32-3z" fill="#4b5563"/>
+    <circle cx="99" cy="89" r="8" fill="#111827"/><circle cx="144" cy="89" r="8" fill="#111827"/>
+    <path d="M94 120c28 14 52 14 75 0" stroke="#4f46e5" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <text x="20" y="215" font-family="Arial, sans-serif" font-size="24" fill="#102033">Reviewer</text>
+  </g>
+  <g transform="translate(870 252)">
+    <circle cx="120" cy="82" r="68" fill="#f7d2df"/>
+    <path d="M54 82c8-69 124-82 144-10-39-13-75-10-105 10-14-6-26-6-39 0z" fill="#6b4423"/>
+    <circle cx="99" cy="89" r="8" fill="#111827"/><circle cx="144" cy="89" r="8" fill="#111827"/>
+    <path d="M96 123c25 13 49 13 70-1" stroke="#be123c" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <text x="-10" y="215" font-family="Arial, sans-serif" font-size="24" fill="#102033">SAMPLE-427A</text>
+  </g>
+</svg>

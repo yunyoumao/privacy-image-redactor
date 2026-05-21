@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Public-release boundaries
+.codex/
+.claude/
+AGENTS.md
+CLAUDE.md
+private/
+notes/
+handoff.md
+project-memory/
+*.bak
+*.tmp
+vite-dev*.log
+*.pid
+rendered-demo-dom.html
+screenshots-*.png
+verification/
+.chrome-redactor-test/
