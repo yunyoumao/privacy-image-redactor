@@ -21,13 +21,18 @@ TEXT_EXTENSIONS = {
 }
 
 FORBIDDEN_NAMES = {"." + "codex", "." + "claude", "AGENTS" + ".md", "CLAUDE" + ".md"}
+SCANNER_FILES = {Path("scripts/validate_public_assets.py")}
 
 PATTERNS = {
-    "local path": re.compile(r"(D:\\OneDrive|C:\\Users\\yunyo|I:\\data)", re.IGNORECASE),
-    "old email": re.compile(r"yunyou" + r"maomaomao|lipeize1997" + r"@126\.com", re.IGNORECASE),
-    "private company": re.compile(r"Air" + r"Liquide", re.IGNORECASE),
+    "local path": re.compile(r"([A-Z]:\\+(?:Users|OneDrive|Dropbox|Desktop|Documents|Projects|Research)\\+|/Users/|/home/)", re.IGNORECASE),
+    "personal email": re.compile(r"\b[\w.+-]+@(?:gmail|outlook|hotmail|qq|163|126)\.com\b", re.IGNORECASE),
     "phone number": re.compile(r"(?<![\d.-])1[3-9]\d{9}(?![\d.-])"),
-    "credential": re.compile(r"(api[_-]?key|access[_-]?token|auth[_-]?token|bearer\s+[a-z0-9._-]+|secret\s*=)", re.IGNORECASE),
+    "credential": re.compile(
+        r"(sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|"
+        r"AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|xox[baprs]-[0-9A-Za-z-]+|"
+        r"api[_-]?key|access[_-]?token|auth[_-]?token|bearer\s+[a-z0-9._-]+|secret\s*=)",
+        re.IGNORECASE,
+    ),
     "identity keyword": re.compile(
         r"(" + "户" + "口" + r"|" + "籍" + "贯" + r"|" + "护" + "照" + r"|pass" + r"port)",
         re.IGNORECASE,
@@ -90,9 +95,10 @@ def main() -> int:
             if name in text and rel != ".gitignore":
                 errors.append(f"Forbidden workspace marker {name!r} in {rel}")
 
-        for label, pattern in PATTERNS.items():
-            if pattern.search(text):
-                errors.append(f"Potential {label} in {rel}")
+        if path.relative_to(ROOT) not in SCANNER_FILES:
+            for label, pattern in PATTERNS.items():
+                if pattern.search(text):
+                    errors.append(f"Potential {label} in {rel}")
 
         emails = re.findall(r"[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}", text)
         unexpected_emails = [
