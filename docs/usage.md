@@ -17,6 +17,8 @@ npm run dev
 
 Supported upload formats are PNG, JPEG, and WebP. SVG files are kept out of the upload flow to avoid external-resource and scripting ambiguity.
 
+The app rejects images larger than 25 MB, images above 10,000 px on either side, or images above 32 megapixels. These limits keep Canvas editing responsive and reduce the chance of browser memory pressure.
+
 ## Automatic Face Detection
 
 The **Try face detection** button first uses the browser's native `FaceDetector` API when available. If that does not find faces or is not supported, the app tries a MediaPipe Face Detector fallback in the browser.

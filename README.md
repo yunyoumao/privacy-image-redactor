@@ -14,6 +14,7 @@ The showcase image is generated from a synthetic UI prompt. The editable SVG fix
 
 - Multi-image drag and drop.
 - PNG, JPEG, and WebP upload support.
+- Browser safety limits for very large files and images.
 - Manual redaction boxes for faces, names, IDs, screenshots, and custom regions.
 - Redaction modes: blur, pixelate, and solid block.
 - Experimental automatic face detection with browser `FaceDetector` first and a MediaPipe fallback when needed.
@@ -34,6 +35,8 @@ Open the local Vite URL, add your own image files, draw or detect redaction boxe
 ## Browser Support
 
 Manual redaction works in modern browsers with Canvas support. Automatic face detection is experimental: the app tries browser `FaceDetector` first, then a MediaPipe Face Detector fallback. ID cards, screenshots, angled faces, small portraits, or low-resolution images can still be missed.
+
+For browser stability, v0.1 rejects images larger than 25 MB, images above 10,000 px on either side, or images above 32 megapixels.
 
 ## Privacy Boundary
 

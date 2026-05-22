@@ -14,7 +14,7 @@ Important limits:
 - Automatic detection is only a convenience feature; ID cards, screenshots, small portraits, angled faces, and low-resolution images can be missed.
 - Manual review is required.
 - Canvas export is not a forensic erasure certification.
-- Very large images can use significant memory.
+- Very large images can use significant memory. The app rejects files above 25 MB, dimensions above 10,000 px on either side, or images above 32 megapixels.
 - Do not rely on this tool as the only control for regulated, legal, medical, or classified material.
 
 Recommended workflow:
